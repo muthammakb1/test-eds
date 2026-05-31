@@ -7,22 +7,20 @@ export default function decorate(block) {
 
   if (!desktopImg || !mobileImg) return;
 
-  const desktopSrc = desktopImg.currentSrc || desktopImg.src;
-  const mobileSrc = mobileImg.currentSrc || mobileImg.src;
+  const desktopSrc = (desktopImg.currentSrc || desktopImg.src).split('?')[0];
+  const mobileSrc = (mobileImg.currentSrc || mobileImg.src).split('?')[0];
 
   const picture = document.createElement('picture');
 
   const source = document.createElement('source');
   source.media = '(min-width: 600px)';
-  source.srcset = `${desktopSrc}?width=2000&format=webply&optimize=medium`;
+  source.srcset = desktopSrc;
   picture.append(source);
 
   const img = document.createElement('img');
-  img.src = `${mobileSrc}?width=750&format=webply&optimize=medium`;
+  img.src = mobileSrc;
   img.alt = desktopImg.alt || mobileImg.alt || '';
   img.loading = 'eager';
-  img.width = 2000;
-  img.height = 836;
   picture.append(img);
 
   block.textContent = '';
