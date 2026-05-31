@@ -2,6 +2,8 @@ export default function decorate(block) {
   const rows = [...block.children];
   if (rows.length < 2) return;
 
+  const desktopPic = rows[0].querySelector('picture');
+  const mobilePic = rows[1].querySelector('picture');
   const desktopImg = rows[0].querySelector('img');
   const mobileImg = rows[1].querySelector('img');
 
@@ -11,11 +13,11 @@ export default function decorate(block) {
 
   const source = document.createElement('source');
   source.media = '(min-width: 600px)';
-  source.srcset = desktopImg.src;
+  source.srcset = desktopImg.currentSrc || desktopImg.src;
   picture.append(source);
 
   const img = document.createElement('img');
-  img.src = mobileImg.src;
+  img.src = mobileImg.currentSrc || mobileImg.src;
   img.alt = desktopImg.alt || mobileImg.alt || '';
   img.loading = 'eager';
   picture.append(img);
