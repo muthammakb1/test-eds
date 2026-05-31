@@ -39,6 +39,12 @@ export default function decorate(block) {
 
   block.append(carousel);
 
+  block.querySelectorAll('.content-library-card-body a').forEach((link) => {
+    link.href = 'https://static.asianpaints.com/content/dam/asian_paints/colour-pdf/pdf/1.pdf';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+  });
+
   let isDown = false;
   let startX;
   let scrollLeft;
