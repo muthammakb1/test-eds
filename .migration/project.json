@@ -1,6 +1,6 @@
 {
-  "previewOrg": "muthammakb1",
-  "previewSite": "test-eds",
   "type": "doc",
-  "contentHostUrl": "https://content.da.live/muthammakb1/test-eds/"
+  "contentHostUrl": "https://content.da.live/muthammakb1/test-eds/",
+  "previewOrg": "muthammakb1",
+  "previewSite": "test-eds"
 }
