@@ -2,8 +2,6 @@ export default function decorate(block) {
   const rows = [...block.children];
   if (rows.length < 2) return;
 
-  const desktopPic = rows[0].querySelector('picture');
-  const mobilePic = rows[1].querySelector('picture');
   const desktopImg = rows[0].querySelector('img');
   const mobileImg = rows[1].querySelector('img');
 
