@@ -365,20 +365,20 @@ function buildVideoBanner(container, row) {
 
   if (desktopImg) {
     const pic = document.createElement('picture');
+    const desktopSrc = (desktopImg.getAttribute('src') || '').split('?')[0];
 
     if (mobileImg?.getAttribute('src')) {
+      const mobileSrc = mobileImg.getAttribute('src').split('?')[0];
       pic.appendChild(el('source', {
         media: '(max-width: 767px)',
-        srcset: mobileImg.getAttribute('src'),
+        srcset: mobileSrc,
       }));
     }
 
     const imgEl = el('img', {
-      src: desktopImg.getAttribute('src'),
+      src: desktopSrc,
       alt: desktopImg.getAttribute('alt') || 'Har Ghar Kuch Kehta Hai',
       loading: 'lazy',
-      width: '755',
-      height: '513',
     });
 
     pic.appendChild(imgEl);
