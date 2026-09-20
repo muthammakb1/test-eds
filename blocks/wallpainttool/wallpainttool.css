@@ -452,4 +452,19 @@
     line-height: 21.86px;
     font-weight: 500;
   }
+
+  /* keep each Step 2 question's options on a single line in the narrow column */
+  .wallpainttool .wallpainttool-form2 .wallpainttool-question-title {
+    font-size: 14px;
+  }
+
+  .wallpainttool .wallpainttool-form2-questions .wallpainttool-options {
+    flex-wrap: nowrap;
+    gap: 10px 16px;
+  }
+
+  .wallpainttool .wallpainttool-form2-questions .wallpainttool-option {
+    font-size: 13px;
+    white-space: nowrap;
+  }
 }
