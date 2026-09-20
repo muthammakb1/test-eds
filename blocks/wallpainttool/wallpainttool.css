@@ -101,8 +101,11 @@
 
 .wallpainttool .wallpainttool-option input[type="radio"]:checked {
   border-color: #fff;
-  background: linear-gradient(180deg, #ffc63c, #ffa20c);
-  box-shadow: inset 0 0 0 3px #fff;
+
+  /* 10px gold gradient dot (linear #ffc63c -> #ffa20c) centered over the translucent base */
+  background:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="%23ffc63c"/><stop offset="1" stop-color="%23ffa20c"/></linearGradient></defs><circle cx="5" cy="5" r="5" fill="url(%23g)"/></svg>') center / 10px 10px no-repeat,
+    rgb(255 255 255 / 20%);
 }
 
 .wallpainttool .wallpainttool-option input[type="radio"]:focus-visible {
