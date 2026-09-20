@@ -382,32 +382,279 @@ function buildStep2(rows) {
 }
 
 /* ------------------------------------------------------------------ STEP 3 */
+// Base host for the product packshots / detail pages returned by the API
+// (the API returns site-relative paths like "/content/dam/...").
+const WPT_ASSET_BASE = 'https://www.asianpaints.com';
+
+// Default endpoint; authors can override it with an "Endpoint" row.
+const WPT_DEFAULT_ENDPOINT = '/wallPaintTool.wallPaintRecomendation.json';
+
+// Parse the authored Step 3 rows into a config object. Each row is a
+// key | value pair (the key is in the first cell) so authors can label
+// exactly what each piece of copy is. List values (Inputs, Tabs) use a
+// bullet list in the second cell.
+function parseStep3Config(rows) {
+  const cfg = {
+    restart: 'Restart',
+    title: '',
+    subtitle: '',
+    inputs: [], // labels for the 3 answers, e.g. ["Area", "Seepage", "Finish"]
+    downloadText: '', // may contain a {tab} placeholder
+    downloadCta: 'Download PDF',
+    productsTitle: 'Recommended Products',
+    tabs: [], // authored tab labels, matched against API response keys
+    endpoint: WPT_DEFAULT_ENDPOINT,
+    // static card sub-labels (UI chrome, sensible defaults)
+    keyFeatures: 'Key Features',
+    priceLabel: 'Price (per sqft)',
+    viewDetails: 'View product details',
+    wfLabel: 'Waterproofing Product',
+    viewProduct: 'View product',
+  };
+
+  (rows || []).forEach((row) => {
+    const cells = [...row.children];
+    if (cells.length < 2) return;
+    const key = slug(cells[0].textContent);
+    const valueCell = cells[1];
+    const list = [...valueCell.querySelectorAll('li')].map((li) => li.textContent.trim());
+    const text = valueCell.textContent.trim();
+    const rich = (valueCell.querySelector('p') || valueCell).innerHTML;
+    switch (key) {
+      case 'restart': cfg.restart = text; break;
+      case 'title': cfg.title = rich; break;
+      case 'subtitle': cfg.subtitle = text; break;
+      case 'inputs': cfg.inputs = list; break;
+      case 'download-text': cfg.downloadText = rich; break;
+      case 'download-cta': cfg.downloadCta = text; break;
+      case 'products-title': cfg.productsTitle = text; break;
+      case 'tabs': cfg.tabs = list; break;
+      case 'endpoint': case 'api': cfg.endpoint = text; break;
+      default: break;
+    }
+  });
+  return cfg;
+}
+
+// Build one product card from an API product entry, appending the shared
+// waterproofing product (wfProduct) in the footer.
+function buildProductCard(product, wfProduct, cfg) {
+  const card = document.createElement('article');
+  card.className = 'wallpainttool-product';
+
+  const head = document.createElement('div');
+  head.className = 'wallpainttool-product-head';
+  if (product.packShot) {
+    const img = document.createElement('img');
+    img.src = WPT_ASSET_BASE + product.packShot;
+    img.alt = product.entityName || '';
+    img.loading = 'lazy';
+    head.append(img);
+  }
+  const name = document.createElement('strong');
+  name.className = 'wallpainttool-product-name';
+  name.textContent = product.entityName || '';
+  head.append(name);
+  card.append(head);
+
+  // key features
+  const kf = document.createElement('p');
+  kf.className = 'wallpainttool-product-sublabel';
+  kf.textContent = cfg.keyFeatures;
+  card.append(kf);
+  const tags = document.createElement('ul');
+  tags.className = 'wallpainttool-product-tags';
+  (product.visibleTags || []).forEach((t) => {
+    const li = document.createElement('li');
+    li.textContent = t;
+    tags.append(li);
+  });
+  card.append(tags);
+
+  // price (only when the API provides one)
+  if (product.productPrice) {
+    const priceLabel = document.createElement('p');
+    priceLabel.className = 'wallpainttool-product-sublabel';
+    priceLabel.textContent = cfg.priceLabel;
+    card.append(priceLabel);
+    const price = document.createElement('p');
+    price.className = 'wallpainttool-product-price';
+    price.textContent = `Rs.${product.productPrice}`;
+    card.append(price);
+  }
+
+  // view details link
+  if (product.pagePath) {
+    const link = document.createElement('a');
+    link.className = 'wallpainttool-product-link';
+    link.href = WPT_ASSET_BASE + product.pagePath;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = cfg.viewDetails;
+    card.append(link);
+  }
+
+  // shared waterproofing product footer
+  if (wfProduct) {
+    card.append(document.createElement('hr'));
+    const wfLabel = document.createElement('p');
+    wfLabel.className = 'wallpainttool-product-sublabel';
+    wfLabel.textContent = cfg.wfLabel;
+    card.append(wfLabel);
+
+    const wf = document.createElement('div');
+    wf.className = 'wallpainttool-wf';
+    if (wfProduct.packShot) {
+      const wfImg = document.createElement('img');
+      wfImg.src = WPT_ASSET_BASE + wfProduct.packShot;
+      wfImg.alt = wfProduct.entityName || '';
+      wfImg.loading = 'lazy';
+      wf.append(wfImg);
+    }
+    const wfBody = document.createElement('div');
+    const wfName = document.createElement('strong');
+    wfName.textContent = wfProduct.entityName || '';
+    wfBody.append(wfName);
+    if (wfProduct.pagePath) {
+      const wfLink = document.createElement('a');
+      wfLink.className = 'wallpainttool-product-link';
+      wfLink.href = WPT_ASSET_BASE + wfProduct.pagePath;
+      wfLink.target = '_blank';
+      wfLink.rel = 'noopener';
+      wfLink.textContent = cfg.viewProduct;
+      wfBody.append(wfLink);
+    }
+    wf.append(wfBody);
+    card.append(wf);
+  }
+
+  return card;
+}
+
 function buildStep3(rows) {
+  const cfg = parseStep3Config(rows);
+
   const screen = document.createElement('div');
   screen.className = 'wallpainttool-screen wallpainttool-screen-3';
   screen.dataset.step = '3';
 
-  const card = document.createElement('div');
-  card.className = 'wallpainttool-card wallpainttool-card-3';
+  // ---- LEFT column ----
+  const left = document.createElement('div');
+  left.className = 'wallpainttool-result-left';
 
-  (rows || []).forEach((row, i) => {
-    if (!row.textContent.trim()) return;
-    const src = row.querySelector('p') || row;
-    if (i === 0) {
-      const h = document.createElement('h2');
-      h.className = 'wallpainttool-form2-title';
-      h.innerHTML = buildHeadingHTML(src);
-      card.append(h);
-    } else {
-      const p = document.createElement('p');
-      p.className = 'wallpainttool-form2-sub';
-      p.innerHTML = src.innerHTML;
-      card.append(p);
-    }
-  });
+  const restartBtn = document.createElement('button');
+  restartBtn.type = 'button';
+  restartBtn.className = 'wallpainttool-restart';
+  restartBtn.innerHTML = `<span class="wallpainttool-restart-icon" aria-hidden="true"></span><span>${cfg.restart}</span>`;
 
-  screen.append(card);
-  return { screen };
+  const title = document.createElement('h2');
+  title.className = 'wallpainttool-result-title';
+  title.innerHTML = cfg.title;
+
+  const subtitle = document.createElement('p');
+  subtitle.className = 'wallpainttool-result-subtitle';
+  subtitle.textContent = cfg.subtitle;
+
+  const inputsEl = document.createElement('ul');
+  inputsEl.className = 'wallpainttool-inputs';
+
+  const download = document.createElement('div');
+  download.className = 'wallpainttool-download';
+  const downloadText = document.createElement('p');
+  downloadText.className = 'wallpainttool-download-text';
+  const downloadCta = document.createElement('button');
+  downloadCta.type = 'button';
+  downloadCta.className = 'wallpainttool-proceed wallpainttool-download-cta';
+  downloadCta.innerHTML = `<span>${cfg.downloadCta}</span>`;
+  download.append(downloadText, downloadCta);
+
+  left.append(restartBtn, title, subtitle, inputsEl, download);
+
+  // ---- RIGHT column ----
+  const right = document.createElement('div');
+  right.className = 'wallpainttool-result-right';
+
+  const tabsEl = document.createElement('div');
+  tabsEl.className = 'wallpainttool-tabs';
+  tabsEl.setAttribute('role', 'tablist');
+
+  const productsTitle = document.createElement('h3');
+  productsTitle.className = 'wallpainttool-products-title';
+  productsTitle.textContent = cfg.productsTitle;
+
+  const productsEl = document.createElement('div');
+  productsEl.className = 'wallpainttool-products';
+
+  right.append(tabsEl, productsTitle, productsEl);
+
+  const result = document.createElement('div');
+  result.className = 'wallpainttool-result';
+  result.append(left, right);
+  screen.append(result);
+
+  // render the download-text with the active tab substituted for {tab}
+  function renderDownloadText(tabLabel) {
+    const html = (cfg.downloadText || '').replace(
+      /\{tab\}/gi,
+      `<span class="wallpainttool-download-tab">${(tabLabel || '').toUpperCase()}</span>`,
+    );
+    downloadText.innerHTML = html;
+  }
+
+  // render the product cards for the given tab key from the API data
+  function renderProducts(data, tabKey) {
+    productsEl.textContent = '';
+    const group = data[tabKey] || {};
+    const wfProduct = group.wfProduct || null;
+    // main products are every entry except the shared waterproofing product,
+    // ordered by key (productOne, productTwo, ...)
+    Object.keys(group)
+      .filter((k) => k !== 'wfProduct')
+      .sort()
+      .forEach((k) => productsEl.append(buildProductCard(group[k], wfProduct, cfg)));
+  }
+
+  // populate the left-column input summary from the selected answers,
+  // pairing each authored label with the corresponding answer.
+  function renderInputs(answers) {
+    inputsEl.textContent = '';
+    cfg.inputs.forEach((label, i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `${label} - <strong>${answers[i] || ''}</strong>`;
+      inputsEl.append(li);
+    });
+  }
+
+  // build the tab buttons for whichever authored tabs exist in the response,
+  // wire selection, and render the first available tab.
+  function renderTabs(data, answers) {
+    tabsEl.textContent = '';
+    const available = cfg.tabs.filter((label) => Object.keys(data)
+      .some((k) => k.toLowerCase() === label.toLowerCase()));
+    const tabKeyFor = (label) => Object.keys(data)
+      .find((k) => k.toLowerCase() === label.toLowerCase());
+
+    const select = (label) => {
+      [...tabsEl.children].forEach((b) => b.classList.toggle('is-active', b.dataset.tab === label));
+      renderProducts(data, tabKeyFor(label));
+      renderDownloadText(label);
+    };
+
+    available.forEach((label) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'wallpainttool-tab';
+      btn.dataset.tab = label;
+      btn.textContent = label;
+      btn.addEventListener('click', () => select(label));
+      tabsEl.append(btn);
+    });
+
+    renderInputs(answers);
+    if (available.length) select(available[0]);
+  }
+
+  return { screen, restartBtn, render: renderTabs };
 }
 
 export default function decorate(block) {
@@ -427,6 +674,38 @@ export default function decorate(block) {
   const step1 = buildStep1(steps[0] || []);
   const step2 = buildStep2(steps[1] || []);
   const step3 = buildStep3(steps[2] || []);
+  const cfg = parseStep3Config(steps[2] || []);
+
+  // Once the form has been completed at least once we skip Step 2 on
+  // subsequent Proceeds (the "Restart" flow lets users tweak Step 1 answers
+  // and jump straight back to the results).
+  let formCompleted = false;
+
+  // Read the three Step 1 answers (area, seepage, finish) in order.
+  const step1Answers = () => [...step1.form.querySelectorAll('input[type="radio"]:checked')]
+    .map((r) => r.value);
+
+  // Fetch recommendations and show the results screen.
+  async function showResults() {
+    const [area, seepage, finish] = step1Answers();
+    const params = new URLSearchParams({ area, seepage, finish });
+    const url = `${cfg.endpoint}?${params.toString()}`;
+    block.dataset.loading = 'true';
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      step3.render(data, [area, seepage, finish]);
+      block.dataset.screen = '3';
+    } catch (err) {
+      // surface a minimal failure state; keep the user on the current screen
+      block.dataset.error = 'true';
+      // eslint-disable-next-line no-console
+      console.error('wallpainttool recommendation request failed', err);
+    } finally {
+      block.dataset.loading = 'false';
+    }
+  }
 
   // Navigation is driven by a single `data-screen` attribute on the block;
   // the CSS shows only the matching step and hides the rest. All three steps
@@ -434,7 +713,12 @@ export default function decorate(block) {
   step1.form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (step1.proceed.disabled) return; // guard: questions not all answered
-    block.dataset.screen = '2';
+    // After the lead form is filled once, Proceed goes straight to results.
+    if (formCompleted) {
+      showResults();
+    } else {
+      block.dataset.screen = '2';
+    }
   });
 
   if (step2.form) {
@@ -446,7 +730,16 @@ export default function decorate(block) {
         step2.form.reportValidity();
         return;
       }
-      block.dataset.screen = '3';
+      formCompleted = true;
+      showResults();
+    });
+  }
+
+  // Restart returns to Step 1 with the previous answers preserved so the
+  // user can adjust them; the lead form is skipped on the next Proceed.
+  if (step3.restartBtn) {
+    step3.restartBtn.addEventListener('click', () => {
+      block.dataset.screen = '1';
     });
   }
 

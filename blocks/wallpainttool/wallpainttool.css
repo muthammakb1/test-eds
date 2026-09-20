@@ -42,9 +42,8 @@
   padding: 32px 20px;
 }
 
-/* steps 2 & 3 centre their card */
-.wallpainttool .wallpainttool-screen-2,
-.wallpainttool .wallpainttool-screen-3 {
+/* step 2 centres its card */
+.wallpainttool .wallpainttool-screen-2 {
   align-items: center;
   justify-content: center;
 }
@@ -424,11 +423,212 @@
   border-color: #000;
 }
 
-/* Step 3 placeholder card */
-.wallpainttool .wallpainttool-card-3 {
-  max-width: 720px;
-  text-align: center;
+/* =============================================
+   STEP 3: RESULTS
+   ============================================= */
+.wallpainttool .wallpainttool-result {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
   color: #fff;
+}
+
+/* ---------- LEFT ---------- */
+.wallpainttool .wallpainttool-restart {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.wallpainttool .wallpainttool-restart-icon {
+  width: 18px;
+  height: 18px;
+  background: currentcolor;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>') no-repeat center / contain;
+}
+
+.wallpainttool .wallpainttool-result-title {
+  margin: 0;
+  font-size: clamp(28px, 6vw, 34px);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.wallpainttool .wallpainttool-result-subtitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.wallpainttool .wallpainttool-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+}
+
+.wallpainttool .wallpainttool-inputs li {
+  position: relative;
+}
+
+.wallpainttool .wallpainttool-inputs li:not(:first-child)::before {
+  content: "•";
+  margin-right: 24px;
+  opacity: 0.6;
+}
+
+.wallpainttool .wallpainttool-download {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgb(0 0 0 / 25%);
+}
+
+.wallpainttool .wallpainttool-download-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.wallpainttool .wallpainttool-download-tab {
+  color: var(--wpt-accent);
+  font-weight: 700;
+}
+
+.wallpainttool .wallpainttool-download-cta {
+  align-self: flex-start;
+}
+
+/* ---------- RIGHT ---------- */
+.wallpainttool .wallpainttool-tabs {
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 10px;
+  background: rgb(0 0 0 / 20%);
+  width: fit-content;
+}
+
+.wallpainttool .wallpainttool-tab {
+  padding: 8px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgb(255 255 255 / 60%);
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.wallpainttool .wallpainttool-tab.is-active {
+  color: #fff;
+  background: rgb(0 0 0 / 35%);
+}
+
+.wallpainttool .wallpainttool-products-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.wallpainttool .wallpainttool-products {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* ---------- PRODUCT CARD ---------- */
+.wallpainttool .wallpainttool-product {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #fff;
+  color: #232426;
+}
+
+.wallpainttool .wallpainttool-product-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.wallpainttool .wallpainttool-product-head img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.wallpainttool .wallpainttool-product-name {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.wallpainttool .wallpainttool-product-sublabel {
+  margin: 8px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.wallpainttool .wallpainttool-product-tags {
+  margin: 4px 0 0;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.wallpainttool .wallpainttool-product-price {
+  margin: 2px 0 0;
+  font-size: 14px;
+}
+
+.wallpainttool .wallpainttool-product-link {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e08a00;
+  text-decoration: none;
+}
+
+.wallpainttool .wallpainttool-product hr {
+  width: 100%;
+  margin: 12px 0 4px;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.wallpainttool .wallpainttool-wf {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wallpainttool .wallpainttool-wf img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.wallpainttool .wallpainttool-wf strong {
+  display: block;
+  font-size: 14px;
 }
 
 /* =============================================
@@ -465,11 +665,35 @@
     gap: 32px;
   }
 
-  .wallpainttool .wallpainttool-screen-2,
-  .wallpainttool .wallpainttool-screen-3 {
+  .wallpainttool .wallpainttool-screen-2 {
     min-height: 70vh;
     max-height: 92vh;
     padding: 40px 5%;
+  }
+
+  .wallpainttool .wallpainttool-screen-3 {
+    min-height: 70vh;
+    padding: 48px 5%;
+  }
+
+  .wallpainttool .wallpainttool-result {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 5%;
+  }
+
+  .wallpainttool .wallpainttool-result-left,
+  .wallpainttool .wallpainttool-result-right {
+    flex: 1 1 50%;
+    min-width: 0;
+  }
+
+  .wallpainttool .wallpainttool-result-title {
+    font-size: clamp(40px, 3.4vw, 52px);
+  }
+
+  .wallpainttool .wallpainttool-products {
+    grid-template-columns: 1fr 1fr;
   }
 
   .wallpainttool .wallpainttool-fields {
