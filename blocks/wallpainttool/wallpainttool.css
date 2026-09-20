@@ -1,10 +1,17 @@
 /* =============================================
    WALL PAINT TOOL
-   Screen 1: heading (left) + 3 mandatory questions (right)
-   Fits within the viewport with no vertical scroll on mobile & desktop.
+   A 3-step guided flow rendered inside one block:
+     Step 1 - heading (left) + mandatory questions (right)
+     Step 2 - lead-capture form on a white card
+     Step 3 - recommendations (placeholder)
+   Only one step is visible at a time; the active step is chosen by the
+   `data-screen` attribute the JS sets on .wallpainttool (see STEP VISIBILITY).
+   Each step fits within the viewport with no vertical scroll on mobile/desktop.
    ============================================= */
 
 .wallpainttool {
+  /* --wpt-bg-desktop / --wpt-bg-mobile are set inline by the JS from the
+     authored image row and shared across all steps. */
   --wpt-accent: #f0a500;
   --wpt-proceed-bg: linear-gradient(90deg, #f0a500 0%, #e08a00 100%);
   --wpt-radio-size: 20px;
@@ -21,7 +28,10 @@
   max-width: none;
 }
 
-/* ---------- STEP VISIBILITY & LAYOUT ---------- */
+/* ---------- STEP VISIBILITY & LAYOUT ----------
+   Every step is hidden by default; the rule further down re-shows only the one
+   matching the block's current data-screen value. All steps stay in the DOM so
+   form state survives navigating back and forth. */
 .wallpainttool .wallpainttool-screen {
   position: relative;
   box-sizing: border-box;
