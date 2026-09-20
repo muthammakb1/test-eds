@@ -404,14 +404,24 @@
 
 .wallpainttool .wallpainttool-proceed-2 {
   align-self: center;
-  height: 46px;
+  gap: 19px;
+  height: auto;
   margin: 0 auto;
-  padding: 14px 28px;
-  color: #232426;
+  padding: 10.5px 20px;
+  border-radius: 45px;
+  font-size: 14px;
+  color: #000;
+  background: var(--gradient, linear-gradient(180deg, #fec940, #f90));
 }
 
 .wallpainttool .wallpainttool-proceed-2::after {
-  background: #232426;
+  background: #000;
+}
+
+.wallpainttool .wallpainttool-proceed-2:not(:disabled):hover {
+  color: #000;
+  background: transparent;
+  border-color: #000;
 }
 
 /* Step 3 placeholder card */
