@@ -8,6 +8,7 @@
   font-size: 14px;
   line-height: 1.6;
   color: #333;
+
   --full-bg: #fdedd6;
   --footer-text-color: #232426;
 }
@@ -442,7 +443,7 @@
   grid-template-columns: 64px auto;
   align-items: center;
   gap: 34px;
-  background: rgba(255 255 255 / 70%);
+  background: rgb(255 255 255 / 70%);
   border: 1px solid #fff;
   border-radius: 100px;
   padding: 12px 18px;
@@ -452,7 +453,7 @@
 }
 
 .footer .watch-now-btn:hover {
-  background: rgba(255 255 255 / 95%);
+  background: rgb(255 255 255 / 95%);
 }
 
 .footer .watch-now-btn .yt-icon {
@@ -513,7 +514,7 @@
   background: #fff;
   border-radius: 999px;
   transform-origin: center;
-  box-shadow: 0 0 8px rgba(0 0 0 / 35%);
+  box-shadow: 0 0 8px rgb(0 0 0 / 35%);
 }
 
 .footer .footer-video-close::before {
@@ -735,7 +736,7 @@
     gap: 8px;
     padding: 0;
     justify-self: stretch;
-    border-bottom: 1px solid rgba(255 255 255 / 15%);
+    border-bottom: 1px solid rgb(255 255 255 / 15%);
   }
 
   .footer .footer-brand-logo {
@@ -791,11 +792,11 @@
 
   .footer .link-group {
     margin-bottom: 0;
-    border-bottom: 1px solid rgba(255 255 255 / 15%);
+    border-bottom: 1px solid rgb(255 255 255 / 15%);
   }
 
   .footer .link-group:last-child {
-    border-bottom: 1px solid rgba(255 255 255 / 15%);
+    border-bottom: 1px solid rgb(255 255 255 / 15%);
   }
 
   .footer .link-group-title {

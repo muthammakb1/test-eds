@@ -1,0 +1,218 @@
+/* =============================================
+   WALL PAINT TOOL
+   Screen 1: heading (left) + 3 mandatory questions (right)
+   Fits within the viewport with no vertical scroll on mobile & desktop.
+   ============================================= */
+
+.wallpainttool {
+  --wpt-accent: #f0a500;
+  --wpt-proceed-bg: linear-gradient(90deg, #f0a500 0%, #e08a00 100%);
+  --wpt-radio-size: 20px;
+
+  color: #fff;
+}
+
+/* remove default section padding so the banner is edge-to-edge */
+.wallpainttool-container .wallpainttool-wrapper {
+  max-width: none;
+}
+
+.wallpainttool .wallpainttool-screen {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-height: 60vh;
+  padding: 32px 20px;
+  background-image: var(--wpt-bg-mobile);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+/* ---------- LEFT: HEADING ---------- */
+.wallpainttool .wallpainttool-left {
+  display: flex;
+  align-items: center;
+}
+
+.wallpainttool .surface-layout-text-section {
+  outline: none;
+}
+
+.wallpainttool .surface-layout-text-section p {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(28px, 7vw, 34px);
+  line-height: 1.15;
+}
+
+.wallpainttool .color-text {
+  color: var(--wpt-accent);
+}
+
+/* ---------- RIGHT: QUESTIONS ---------- */
+.wallpainttool .wallpainttool-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wallpainttool .wallpainttool-question {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.wallpainttool .wallpainttool-question-title {
+  padding: 0;
+  margin: 0 0 12px;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.wallpainttool .wallpainttool-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+
+/* radio option (text answers) */
+.wallpainttool .wallpainttool-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.wallpainttool .wallpainttool-option input[type="radio"] {
+  appearance: none;
+  margin: 0;
+  width: var(--wpt-radio-size);
+  height: var(--wpt-radio-size);
+  border: 2px solid rgb(255 255 255 / 70%);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 25%);
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.wallpainttool .wallpainttool-option input[type="radio"]:checked {
+  border-color: #fff;
+  background: #fff;
+  box-shadow: inset 0 0 0 4px var(--wpt-accent);
+}
+
+.wallpainttool .wallpainttool-option input[type="radio"]:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ---------- FINISH SWATCH QUESTION ---------- */
+.wallpainttool .wallpainttool-question-swatch .wallpainttool-options {
+  gap: 12px;
+}
+
+.wallpainttool .wallpainttool-question-swatch .wallpainttool-option {
+  position: relative;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 12%);
+  gap: 12px;
+}
+
+.wallpainttool .wallpainttool-question-swatch .wallpainttool-option:has(input:checked) {
+  background: rgb(255 255 255 / 22%);
+  box-shadow: inset 0 0 0 2px var(--wpt-accent);
+}
+
+/* the radio itself is hidden for swatches; the whole card is the control */
+.wallpainttool .wallpainttool-question-swatch .wallpainttool-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wallpainttool .wallpainttool-swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.wallpainttool .wallpainttool-swatch-gloss {
+  background: linear-gradient(125.46deg, #d29d2d 17.03%, #e6d6b5 53.51%, #d29d2d 84.59%);
+}
+
+.wallpainttool .wallpainttool-swatch-semi-gloss {
+  background: linear-gradient(125.46deg, #d29d2d 17.03%, #debd79 53.51%, #d29d2d 84.59%);
+}
+
+.wallpainttool .wallpainttool-swatch-matt {
+  background: linear-gradient(125.46deg, #d29d2d 17.03%, #d5ae5c 84.59%);
+}
+
+/* ---------- PROCEED ---------- */
+.wallpainttool .wallpainttool-proceed {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  padding: 12px 26px;
+  border: 0;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--wpt-proceed-bg);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.wallpainttool .wallpainttool-proceed::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: currentcolor;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11h12.17l-5.59-5.59L12 4l8 8-8 8-1.41-1.41L16.17 13H4z"/></svg>') no-repeat center / contain;
+}
+
+.wallpainttool .wallpainttool-proceed:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =============================================
+   TABLET / DESKTOP
+   ============================================= */
+@media (width >= 900px) {
+  .wallpainttool .wallpainttool-screen {
+    flex-direction: row;
+    align-items: center;
+    gap: 4%;
+    min-height: 70vh;
+    max-height: 88vh;
+    padding: 40px 5%;
+    background-image: var(--wpt-bg-desktop);
+  }
+
+  .wallpainttool .wallpainttool-left,
+  .wallpainttool .wallpainttool-right {
+    flex: 1 1 50%;
+  }
+
+  .wallpainttool .surface-layout-text-section p {
+    font-size: clamp(40px, 4vw, 60px);
+  }
+
+  .wallpainttool .wallpainttool-question-title {
+    font-size: 20px;
+  }
+
+  .wallpainttool .wallpainttool-form {
+    gap: 32px;
+  }
+}
