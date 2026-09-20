@@ -192,7 +192,7 @@
   height: 38px;
   margin-top: 4px;
   padding: 14px 20px;
-  border: 0;
+  border: 1px solid transparent;
   border-radius: 45px;
   font-size: 14px;
   font-weight: 700;
@@ -200,7 +200,7 @@
   background: var(--wpt-proceed-bg);
   opacity: 1;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
 }
 
 .wallpainttool .wallpainttool-proceed::after {
@@ -214,6 +214,18 @@
 .wallpainttool .wallpainttool-proceed:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Step 1 CTA: gold gradient with black label/arrow; transparent + white on hover */
+.wallpainttool .wallpainttool-screen-1 .wallpainttool-proceed {
+  color: #000;
+  background: var(--gradient, linear-gradient(180deg, #fec940, #f90));
+}
+
+.wallpainttool .wallpainttool-screen-1 .wallpainttool-proceed:not(:disabled):hover {
+  color: #fff;
+  background: transparent;
+  border-color: #fff;
 }
 
 /* =============================================
