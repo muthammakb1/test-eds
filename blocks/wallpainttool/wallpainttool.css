@@ -340,10 +340,27 @@
 }
 
 .wallpainttool .wallpainttool-whatsapp input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--wpt-accent);
+  appearance: none;
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border: 1px solid #c4c4c4;
+  border-radius: 4px;
+  background: #fff;
   cursor: pointer;
+}
+
+.wallpainttool .wallpainttool-whatsapp input[type="checkbox"]:checked {
+  border-color: #75787b;
+  background: #75787b
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>')
+    no-repeat center / 12px 12px;
+}
+
+.wallpainttool .wallpainttool-whatsapp input[type="checkbox"]:focus-visible {
+  outline: 2px solid #75787b;
+  outline-offset: 2px;
 }
 
 .wallpainttool .wallpainttool-form2-questions {
