@@ -479,4 +479,9 @@
     font-size: 13px;
     white-space: nowrap;
   }
+
+  .wallpainttool .wallpainttool-consent {
+    font-size: 12px;
+    line-height: 15px;
+  }
 }
