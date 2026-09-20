@@ -10,6 +10,10 @@
   --wpt-radio-size: 20px;
 
   color: #fff;
+  background-image: var(--wpt-bg-mobile);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 /* remove default section padding so the banner is edge-to-edge */
@@ -17,18 +21,28 @@
   max-width: none;
 }
 
+/* ---------- STEP VISIBILITY & LAYOUT ---------- */
 .wallpainttool .wallpainttool-screen {
   position: relative;
   box-sizing: border-box;
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 24px;
   min-height: 60vh;
   padding: 32px 20px;
-  background-image: var(--wpt-bg-mobile);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+}
+
+/* steps 2 & 3 centre their card */
+.wallpainttool .wallpainttool-screen-2,
+.wallpainttool .wallpainttool-screen-3 {
+  align-items: center;
+  justify-content: center;
+}
+
+.wallpainttool[data-screen="1"] .wallpainttool-screen-1,
+.wallpainttool[data-screen="2"] .wallpainttool-screen-2,
+.wallpainttool[data-screen="3"] .wallpainttool-screen-3 {
+  display: flex;
 }
 
 /* ---------- LEFT: HEADING ---------- */
@@ -193,17 +207,196 @@
 }
 
 /* =============================================
+   STEP 2: LEAD FORM
+   ============================================= */
+.wallpainttool .wallpainttool-form2-header {
+  margin-bottom: 24px;
+  color: #fff;
+  text-align: center;
+}
+
+.wallpainttool .wallpainttool-form2-title {
+  margin: 0 0 8px;
+  font-size: clamp(24px, 5vw, 40px);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.wallpainttool .wallpainttool-form2-sub {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+.wallpainttool .wallpainttool-card {
+  width: 100%;
+  max-width: 960px;
+  box-sizing: border-box;
+}
+
+.wallpainttool .wallpainttool-form2 {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border-radius: 16px;
+  background: #fff;
+  color: #333;
+}
+
+.wallpainttool .wallpainttool-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.wallpainttool .wallpainttool-field {
+  min-width: 0;
+}
+
+.wallpainttool .wallpainttool-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.wallpainttool .wallpainttool-control {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 56px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.wallpainttool .wallpainttool-control:focus-within {
+  border-color: var(--wpt-accent);
+}
+
+.wallpainttool .wallpainttool-tel-prefix {
+  padding: 0 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #555;
+  border-right: 1px solid #d9d9d9;
+}
+
+.wallpainttool .wallpainttool-control input {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  padding: 0 16px;
+  font: inherit;
+  font-size: 16px;
+  color: #333;
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+
+.wallpainttool .wallpainttool-control input:user-invalid {
+  color: #b00020;
+}
+
+.wallpainttool .wallpainttool-whatsapp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  color: #333;
+  cursor: pointer;
+}
+
+.wallpainttool .wallpainttool-whatsapp input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--wpt-accent);
+  cursor: pointer;
+}
+
+.wallpainttool .wallpainttool-form2-questions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+/* dark-on-light overrides for the questions inside the white card */
+.wallpainttool .wallpainttool-form2 .wallpainttool-question-title {
+  color: #232426;
+  font-size: 15px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.wallpainttool .wallpainttool-form2 .wallpainttool-option {
+  color: #333;
+}
+
+.wallpainttool .wallpainttool-form2 .wallpainttool-option input[type="radio"] {
+  border-color: #bbb;
+  background: #fff;
+}
+
+.wallpainttool .wallpainttool-form2 .wallpainttool-option input[type="radio"]:checked {
+  border-color: var(--wpt-accent);
+}
+
+.wallpainttool .wallpainttool-consent {
+  margin: 0 0 20px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #555;
+}
+
+.wallpainttool .wallpainttool-consent a {
+  color: #1a3fb0;
+  text-decoration: underline;
+}
+
+.wallpainttool .wallpainttool-proceed-2 {
+  align-self: center;
+  height: 46px;
+  margin: 0 auto;
+  padding: 14px 28px;
+  color: #232426;
+}
+
+.wallpainttool .wallpainttool-proceed-2::after {
+  background: #232426;
+}
+
+/* Step 3 placeholder card */
+.wallpainttool .wallpainttool-card-3 {
+  max-width: 720px;
+  text-align: center;
+  color: #fff;
+}
+
+/* =============================================
    TABLET / DESKTOP
    ============================================= */
 @media (width >= 900px) {
-  .wallpainttool .wallpainttool-screen {
+  .wallpainttool {
+    background-image: var(--wpt-bg-desktop);
+  }
+
+  .wallpainttool .wallpainttool-screen-1 {
     flex-direction: row;
     align-items: center;
     gap: 4%;
     min-height: 70vh;
     max-height: 88vh;
     padding: 40px 5%;
-    background-image: var(--wpt-bg-desktop);
   }
 
   .wallpainttool .wallpainttool-left,
@@ -221,5 +414,20 @@
 
   .wallpainttool .wallpainttool-form {
     gap: 32px;
+  }
+
+  .wallpainttool .wallpainttool-screen-2,
+  .wallpainttool .wallpainttool-screen-3 {
+    min-height: 70vh;
+    max-height: 92vh;
+    padding: 40px 5%;
+  }
+
+  .wallpainttool .wallpainttool-fields {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .wallpainttool .wallpainttool-form2-questions {
+    grid-template-columns: 1fr 1fr;
   }
 }
