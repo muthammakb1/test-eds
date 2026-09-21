@@ -278,6 +278,9 @@ function buildStep2(rows) {
 
   const form = document.createElement('form');
   form.className = 'wallpainttool-form2';
+  // TEMP QA: novalidate lets the empty form submit through to Step 3.
+  // Remove when re-enabling validation.
+  form.setAttribute('novalidate', '');
 
   // heading + subheading (first two single-cell text rows)
   const header = document.createElement('div');
@@ -334,7 +337,8 @@ function buildStep2(rows) {
     input.name = name;
     input.type = cfg.type;
     input.placeholder = placeholder;
-    input.required = true;
+    // TEMP QA: required removed so the empty form can submit through to
+    // Step 3. Restore `input.required = true;` when re-enabling validation.
     input.autocomplete = cfg.autocomplete;
     if (cfg.inputmode) input.inputMode = cfg.inputmode;
     if (cfg.pattern) input.pattern = cfg.pattern;
