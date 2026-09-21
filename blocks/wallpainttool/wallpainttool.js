@@ -399,6 +399,47 @@ const WPT_ASSET_BASE = 'https://www.asianpaints.com';
 // Default endpoint; authors can override it with an "Endpoint" row.
 const WPT_DEFAULT_ENDPOINT = 'https://beta.asianpaints.com/apcolourcatalogue/wallPaintTool.wallPaintRecomendation.json';
 
+// TEMP QA fallback: used only if the live fetch fails (e.g. the API is not yet
+// CORS-enabled for this origin) so Step 3 can be visually QA'd. Remove once the
+// endpoint responds with the proper Access-Control-Allow-Origin header.
+const WPT_SAMPLE_DATA = {
+  Luxury: {
+    productTwo: {
+      visibleTags: ['Unmatched Stain Resistance', 'Teflon Surface Protector', '8 Years Warranty'],
+      entityName: 'Royale Luxury Emulsion',
+      packShot: '/content/dam/asian_paints/products/packshots/interior-walls-royale-luxury-emulsion-asian-paints.png',
+      sku: '0030',
+      pagePath: '/content/ap/en/home/paint-products/interior-wall-paints/plain-finishes/royale-luxury-emulsion.html',
+      productPrice: '5.07',
+    },
+    productOne: {
+      visibleTags: ['Water Beading Technology', 'Luxury with Teflon™', '8 Years Warranty'],
+      entityName: 'Royale Aspira',
+      packShot: '/content/dam/asian_paints/products/packshots/interior-walls-royale-aspira-luxury-emulsion-asian-paints.png',
+      sku: '1058',
+      pagePath: '/content/ap/en/home/paint-products/interior-wall-paints/plain-finishes/royale-aspira.html',
+      productPrice: '8.42',
+    },
+    wfProduct: {
+      visibleTags: ['5 years Warranty', 'Ready to use', 'Anti-dampness and efflorescence'],
+      entityName: 'SmartCare Hydroloc Xtreme',
+      packShot: '/content/dam/asian_paints/products/packshots/Smartcare-Hydfroloc-Xtreme.png',
+      sku: '1B72',
+      pagePath: '/content/ap/en/home/waterproofing-products/hydroloc-xtreme.html',
+    },
+  },
+  Premium: {
+    productOne: {
+      visibleTags: ['Stain Guard', 'High washability', '6 Years Warranty'],
+      entityName: 'Apcolite Premium Satin Emulsion',
+      packShot: '/content/dam/asian_paints/products/packshots/interior-walls-apcolite-premium-satin-emulsion-asian-paints.png',
+      sku: '0074',
+      pagePath: '/content/ap/en/home/paint-products/interior-wall-paints/plain-finishes/apcolite-premium-satin-emulsion.html',
+      productPrice: '3.37',
+    },
+  },
+};
+
 // Parse the authored Step 3 rows into a config object. Each row is a
 // key | value pair (the key is in the first cell) so authors can label
 // exactly what each piece of copy is. List values (Inputs, Tabs) use a
@@ -708,10 +749,13 @@ export default function decorate(block) {
       step3.render(data, [area, seepage, finish]);
       block.dataset.screen = '3';
     } catch (err) {
-      // surface a minimal failure state; keep the user on the current screen
-      block.dataset.error = 'true';
+      // TEMP QA: the live API isn't reachable from the browser yet (CORS), so
+      // fall back to sample data to let Step 3 be QA'd. Remove WPT_SAMPLE_DATA
+      // and this fallback once the endpoint is CORS-enabled.
       // eslint-disable-next-line no-console
-      console.error('wallpainttool recommendation request failed', err);
+      console.warn('wallpainttool recommendation request failed; using sample data', err);
+      step3.render(WPT_SAMPLE_DATA, [area, seepage, finish]);
+      block.dataset.screen = '3';
     } finally {
       block.dataset.loading = 'false';
     }
