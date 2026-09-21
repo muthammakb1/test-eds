@@ -517,17 +517,14 @@
 .wallpainttool .wallpainttool-tabs {
   display: inline-flex;
   gap: 6px;
-  padding: 4px;
-  border-radius: 10px;
-  background: rgb(0 0 0 / 20%);
   width: fit-content;
 }
 
 .wallpainttool .wallpainttool-tab {
   padding: 8px 20px;
-  font-size: 16px;
-  font-weight: 700;
-  color: rgb(255 255 255 / 60%);
+  font-size: 20px;
+  font-weight: 300;
+  color: rgb(239 239 239 / 38%); /* #EFEFEF60 */
   background: none;
   border: 0;
   border-radius: 8px;
@@ -536,7 +533,8 @@
 
 .wallpainttool .wallpainttool-tab.is-active {
   color: #fff;
-  background: rgb(0 0 0 / 35%);
+  font-weight: 800;
+  background: rgb(116 31 52 / 68%); /* #741f34ad */
 }
 
 .wallpainttool .wallpainttool-products-title {
