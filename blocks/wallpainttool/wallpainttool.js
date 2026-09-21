@@ -102,6 +102,10 @@ function buildQuestion(labelText, options, groupName) {
     const value = li.textContent.trim();
     const id = `${groupName}-o${oIndex}`;
     const optSlug = slug(value);
+    // An author can wrap an option's label in a link (e.g. Wood -> the wood
+    // finish tool). Selecting that option opens the link in a new tab.
+    const link = li.querySelector('a');
+    const href = link ? link.getAttribute('href') : '';
 
     const optionLabel = document.createElement('label');
     optionLabel.className = 'wallpainttool-option';
@@ -113,6 +117,12 @@ function buildQuestion(labelText, options, groupName) {
     input.id = id;
     input.value = value;
     input.required = true;
+    if (href) {
+      input.dataset.href = href;
+      input.addEventListener('change', () => {
+        if (input.checked) window.open(href, '_blank', 'noopener');
+      });
+    }
 
     optionLabel.append(input);
 
