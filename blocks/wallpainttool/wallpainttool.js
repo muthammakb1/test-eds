@@ -397,7 +397,7 @@ function buildStep2(rows) {
 const WPT_ASSET_BASE = 'https://www.asianpaints.com';
 
 // Default endpoint; authors can override it with an "Endpoint" row.
-const WPT_DEFAULT_ENDPOINT = '/wallPaintTool.wallPaintRecomendation.json';
+const WPT_DEFAULT_ENDPOINT = 'https://beta.asianpaints.com/apcolourcatalogue/wallPaintTool.wallPaintRecomendation.json';
 
 // Parse the authored Step 3 rows into a config object. Each row is a
 // key | value pair (the key is in the first cell) so authors can label
