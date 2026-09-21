@@ -734,12 +734,8 @@ export default function decorate(block) {
   if (step2.form) {
     step2.form.addEventListener('submit', (e) => {
       e.preventDefault();
-      // Let the browser run native constraint validation (required fields,
-      // tel/pincode patterns) and surface its messages before advancing.
-      if (!step2.form.checkValidity()) {
-        step2.form.reportValidity();
-        return;
-      }
+      // TODO: validation temporarily disabled for testing screen 3 —
+      // re-enable step2.form.checkValidity()/reportValidity() before launch.
       formCompleted = true;
       showResults();
     });
