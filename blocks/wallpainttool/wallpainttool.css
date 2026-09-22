@@ -551,8 +551,9 @@
 
 .wallpainttool .wallpainttool-products-title {
   margin: 0;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21.86px;
 }
 
 .wallpainttool .wallpainttool-products {
@@ -592,8 +593,11 @@
 
 .wallpainttool .wallpainttool-product-sublabel {
   margin: 8px 0 0;
-  font-size: 14px;
+  padding-bottom: 5px;
+  font-size: 12px;
   font-weight: 700;
+  line-height: 14.4px;
+  color: gray;
 }
 
 .wallpainttool .wallpainttool-product-tags {
@@ -610,9 +614,10 @@
 
 .wallpainttool .wallpainttool-product-link {
   margin-top: 4px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #e08a00;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  color: #e05f27;
   text-decoration: none;
 }
 
