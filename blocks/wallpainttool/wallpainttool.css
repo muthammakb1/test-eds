@@ -491,9 +491,11 @@
 
 .wallpainttool .wallpainttool-download {
   display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 20px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 24px;
   border-radius: 12px;
   background: rgb(0 0 0 / 25%);
 }
@@ -510,8 +512,17 @@
   font-weight: 700;
 }
 
+/* outlined pill: transparent bg, white border, white label + download icon */
 .wallpainttool .wallpainttool-download-cta {
-  align-self: flex-start;
+  flex: 0 0 auto;
+  color: #fff;
+  background: transparent;
+  border: 1px solid #fff;
+}
+
+.wallpainttool .wallpainttool-download-cta::after {
+  /* replace the default arrow with a download glyph */
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3v10.17l3.59-3.58L17 11l-5 5-5-5 1.41-1.41L12 13.17V3zM5 19h14v2H5z"/></svg>') no-repeat center / contain;
 }
 
 /* ---------- RIGHT ---------- */
