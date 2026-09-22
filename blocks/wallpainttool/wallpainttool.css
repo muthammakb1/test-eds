@@ -500,8 +500,9 @@
 
 .wallpainttool .wallpainttool-download-text {
   margin: 0;
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16.39px;
 }
 
 .wallpainttool .wallpainttool-download-tab {
