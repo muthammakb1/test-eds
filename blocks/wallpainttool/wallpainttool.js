@@ -659,16 +659,25 @@ function buildStep3(rows) {
     downloadText.innerHTML = html;
   }
 
+  // rank the API's word-numbered product keys (productOne, productTwo, ...)
+  // in natural order — a plain string sort would place "Three" before "Two".
+  const WPT_ORDINALS = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+  const productRank = (key) => {
+    const word = key.toLowerCase().replace(/^product/, '');
+    const idx = WPT_ORDINALS.indexOf(word);
+    return idx === -1 ? Number.MAX_SAFE_INTEGER : idx;
+  };
+
   // render the product cards for the given tab key from the API data
   function renderProducts(data, tabKey) {
     productsEl.textContent = '';
     const group = data[tabKey] || {};
     const wfProduct = group.wfProduct || null;
     // main products are every entry except the shared waterproofing product,
-    // ordered by key (productOne, productTwo, ...)
+    // ordered productOne, productTwo, productThree, ...
     Object.keys(group)
       .filter((k) => k !== 'wfProduct')
-      .sort()
+      .sort((a, b) => productRank(a) - productRank(b))
       .forEach((k) => productsEl.append(buildProductCard(group[k], wfProduct, cfg)));
   }
 
