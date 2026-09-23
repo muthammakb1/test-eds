@@ -617,9 +617,10 @@
 
 .wallpainttool .wallpainttool-product-link {
   margin-top: 4px;
-  font-size: 12px;
+  font-size: 11px;
   font-style: normal;
   font-weight: 700;
+  line-height: 15.3px;
   color: #e05f27;
   text-decoration: none;
 }
@@ -646,7 +647,9 @@
 
 .wallpainttool .wallpainttool-wf strong {
   display: block;
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 14.4px;
 }
 
 /* =============================================
