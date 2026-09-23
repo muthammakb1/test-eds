@@ -32,9 +32,11 @@
 }
 
 .service-matrix .service-matrix-intro {
+  font-weight: 400;
   font-size: 14px;
-  line-height: 1.5;
-  color: #6a6a6a;
+  line-height: 25px;
+  letter-spacing: 0;
+  color: #3b3d40;
 }
 
 .service-matrix .service-matrix-intro p {
@@ -149,7 +151,8 @@
   .service-matrix .service-matrix-intro {
     flex: 0 0 280px;
     padding-top: 8px;
-    font-size: 15px;
+    font-size: 22px;
+    line-height: 40px;
   }
 
   .service-matrix .service-matrix-cards {
