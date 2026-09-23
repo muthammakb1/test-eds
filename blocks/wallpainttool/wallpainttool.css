@@ -700,12 +700,16 @@
   .wallpainttool .wallpainttool-result {
     flex-direction: row;
     align-items: flex-start;
-    gap: 5%;
+    gap: 4%;
   }
 
-  .wallpainttool .wallpainttool-result-left,
+  .wallpainttool .wallpainttool-result-left {
+    flex: 0 0 38%;
+    min-width: 0;
+  }
+
   .wallpainttool .wallpainttool-result-right {
-    flex: 1 1 50%;
+    flex: 1 1 58%;
     min-width: 0;
   }
 
@@ -714,7 +718,8 @@
   }
 
   .wallpainttool .wallpainttool-products {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
   }
 
   .wallpainttool .wallpainttool-fields {
