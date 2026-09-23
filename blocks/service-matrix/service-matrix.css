@@ -1,0 +1,178 @@
+/* =============================================
+   SERVICE MATRIX
+   Header (heading + intro) above a grid of image cards.
+   Mobile: two-column masonry; desktop: three-column grid.
+   ============================================= */
+
+.service-matrix {
+  --sm-card-radius: 10px;
+  --sm-text: #23242b;
+
+  color: var(--sm-text);
+}
+
+/* ---------- HEADER ---------- */
+.service-matrix .service-matrix-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.service-matrix .service-matrix-heading,
+.service-matrix .service-matrix-heading h1,
+.service-matrix .service-matrix-heading h2,
+.service-matrix .service-matrix-heading p {
+  margin: 0;
+  font-weight: 400;
+  font-size: clamp(30px, 8vw, 40px);
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: var(--sm-text);
+}
+
+.service-matrix .service-matrix-intro {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #6a6a6a;
+}
+
+.service-matrix .service-matrix-intro p {
+  margin: 0;
+}
+
+/* ---------- CARD GRID ---------- */
+.service-matrix .service-matrix-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ---------- CARD ---------- */
+.service-matrix .service-matrix-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: var(--sm-card-radius);
+  color: #fff;
+  text-decoration: none;
+  isolation: isolate;
+}
+
+/* stagger the two mobile columns so the second column drops down a little */
+.service-matrix .service-matrix-card:nth-child(even) {
+  margin-top: 40px;
+}
+
+.service-matrix .service-matrix-card-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.service-matrix .service-matrix-card-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* dark gradient so the text stays legible over any image */
+.service-matrix .service-matrix-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgb(0 0 0 / 45%) 0%,
+    rgb(0 0 0 / 10%) 35%,
+    rgb(0 0 0 / 15%) 60%,
+    rgb(0 0 0 / 70%) 100%
+  );
+}
+
+.service-matrix .service-matrix-card-title {
+  margin: 0;
+  padding: 16px 16px 0;
+  font-size: clamp(18px, 4.5vw, 22px);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.service-matrix .service-matrix-card-desc {
+  position: absolute;
+  inset: auto 16px 16px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* arrow indicator top-right */
+.service-matrix .service-matrix-card-arrow {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 90%);
+}
+
+.service-matrix .service-matrix-card-arrow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--sm-text);
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10" fill="none" stroke="black" stroke-width="2"/></svg>') no-repeat center / 16px 16px;
+}
+
+/* =============================================
+   TABLET / DESKTOP
+   ============================================= */
+@media (width >= 900px) {
+  .service-matrix .service-matrix-header {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 28px;
+  }
+
+  .service-matrix .service-matrix-heading,
+  .service-matrix .service-matrix-heading h1,
+  .service-matrix .service-matrix-heading h2,
+  .service-matrix .service-matrix-heading p {
+    font-size: 64px;
+  }
+
+  .service-matrix .service-matrix-intro {
+    flex: 0 0 280px;
+    padding-top: 8px;
+    font-size: 15px;
+  }
+
+  .service-matrix .service-matrix-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .service-matrix .service-matrix-card {
+    aspect-ratio: 4 / 5;
+  }
+
+  /* even columns are not staggered on desktop */
+  .service-matrix .service-matrix-card:nth-child(even) {
+    margin-top: 0;
+  }
+
+  .service-matrix .service-matrix-card-title {
+    padding: 20px 20px 0;
+    font-size: 24px;
+  }
+
+  .service-matrix .service-matrix-card-desc {
+    inset: auto 20px 20px;
+    font-size: 13px;
+  }
+}
