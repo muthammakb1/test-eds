@@ -240,9 +240,10 @@ function buildStep2(rows) {
   const screen = document.createElement('div');
   screen.className = 'wallpainttool-screen wallpainttool-screen-2';
   screen.dataset.step = '2';
-  if (!rows || !rows.length) return { screen, form: null };
+  if (!rows || !rows.length) return { screen, form: null, skipForm: false };
 
   let ctaText = 'View Recommendations';
+  let skipForm = false; // "Skip Form | true" bypasses Step 2 entirely
   const textRows = []; // single-cell text rows -> heading + subheading (in order)
   const gridRows = []; // multi-cell rows -> [0] field labels, [1] placeholders
   const questionRows = []; // rows containing an options list -> radio questions
@@ -255,7 +256,9 @@ function buildStep2(rows) {
   rows.forEach((row) => {
     const cells = [...row.children];
     const flag = displayFlag(cells);
-    if (cells.length === 2 && ['cta', 'button'].includes(cells[0].textContent.trim().toLowerCase())) {
+    if (cells.length === 2 && slug(cells[0].textContent) === 'skip-form') {
+      skipForm = cells[1].textContent.trim().toLowerCase() === 'true';
+    } else if (cells.length === 2 && ['cta', 'button'].includes(cells[0].textContent.trim().toLowerCase())) {
       ctaText = cells[1].textContent.trim() || ctaText;
     } else if (row.querySelector('ul, ol')) {
       questionRows.push({ cells, flag });
@@ -392,7 +395,7 @@ function buildStep2(rows) {
 
   card.append(header, form);
   screen.append(card);
-  return { screen, form };
+  return { screen, form, skipForm };
 }
 
 /* ------------------------------------------------------------------ STEP 3 */
@@ -771,8 +774,9 @@ export default function decorate(block) {
   step1.form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (step1.proceed.disabled) return; // guard: questions not all answered
-    // After the lead form is filled once, Proceed goes straight to results.
-    if (formCompleted) {
+    // Skip Step 2 when authored to (Skip Form = true) or once the lead form
+    // has already been completed; otherwise show the lead form.
+    if (step2.skipForm || formCompleted) {
       showResults();
     } else {
       block.dataset.screen = '2';
