@@ -191,7 +191,7 @@
   height: 38px;
   margin-top: 4px;
   padding: 14px 20px;
-  border: 1px solid transparent;
+  border: 0.5px solid #fff;
   border-radius: 45px;
   font-size: 14px;
   font-weight: 700;
