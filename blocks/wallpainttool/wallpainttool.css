@@ -566,7 +566,6 @@
 .wallpainttool .wallpainttool-product {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   padding: 16px 10px 20px 13px;
   border: 1px solid #efefef;
   border-radius: 8px;
