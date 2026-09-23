@@ -718,8 +718,7 @@
   }
 
   .wallpainttool .wallpainttool-products {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     gap: 12px;
   }
 
