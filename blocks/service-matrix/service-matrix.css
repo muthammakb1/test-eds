@@ -47,14 +47,14 @@
 .service-matrix .service-matrix-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 10px; /* mobile: 10px between the two columns */
 }
 
 /* ---------- CARD ---------- */
 .service-matrix .service-matrix-card {
   position: relative;
   display: block;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 162 / 249; /* mobile card proportions (162x249) */
   overflow: hidden;
   border-radius: var(--sm-card-radius);
   color: #fff;
@@ -97,9 +97,11 @@
 .service-matrix .service-matrix-card-title {
   margin: 0;
   padding: 16px 16px 0;
-  font-size: clamp(18px, 4.5vw, 22px);
+  font-size: 18px;
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #fff;
 }
 
 .service-matrix .service-matrix-card-desc {
@@ -156,12 +158,12 @@
   }
 
   .service-matrix .service-matrix-cards {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(3, 1fr); /* 3 cards in a row */
+    gap: 20px; /* desktop: 20px between cards */
   }
 
   .service-matrix .service-matrix-card {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 413 / 550; /* desktop card proportions (413x550) */
   }
 
   /* even columns are not staggered on desktop */
