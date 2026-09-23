@@ -557,8 +557,8 @@
 }
 
 .wallpainttool .wallpainttool-products {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 16px;
 }
 
@@ -718,8 +718,13 @@
   }
 
   .wallpainttool .wallpainttool-products {
-    grid-template-columns: repeat(3, 1fr);
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 12px;
+  }
+
+  .wallpainttool .wallpainttool-products .wallpainttool-product {
+    flex: 0 0 32%;
   }
 
   .wallpainttool .wallpainttool-fields {
