@@ -1,5 +1,3 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
-
 /**
  * Service Matrix
  * A heading/description header followed by a grid of image cards. Each card
@@ -42,7 +40,12 @@ export default function decorate(block) {
 
   cardRows.forEach((row) => {
     const cells = [...row.children];
-    const img = row.querySelector('img');
+    // The first two image cells are the desktop and mobile background images
+    // (authored as two separate columns). A card may still author a single
+    // image, in which case it is used for both viewports.
+    const imgs = [...row.querySelectorAll('img')];
+    const desktopImg = imgs[0];
+    const mobileImg = imgs[1] || imgs[0];
     // the remaining non-image cells: title, description, and an optional link
     const textCells = cells.filter((c) => !c.querySelector('img, picture'));
     const linkEl = row.querySelector('a');
@@ -60,16 +63,25 @@ export default function decorate(block) {
       card.setAttribute('aria-label', title);
     }
 
-    // background image
-    if (img) {
-      const optimized = createOptimizedPicture(
-        img.src.split('?')[0],
-        img.alt || title,
-        false,
-        [{ width: '750' }],
-      );
-      optimized.classList.add('service-matrix-card-bg');
-      card.append(optimized);
+    // background image: a <picture> that serves the mobile image by default
+    // and swaps to the desktop image at the 900px breakpoint.
+    if (mobileImg) {
+      const picture = document.createElement('picture');
+      picture.className = 'service-matrix-card-bg';
+      if (desktopImg) {
+        const [desktopSrc] = (desktopImg.currentSrc || desktopImg.src).split('?');
+        const source = document.createElement('source');
+        source.media = '(min-width: 900px)';
+        source.srcset = desktopSrc;
+        picture.append(source);
+      }
+      const [mobileSrc] = (mobileImg.currentSrc || mobileImg.src).split('?');
+      const img = document.createElement('img');
+      img.src = mobileSrc;
+      img.alt = mobileImg.alt || desktopImg?.alt || title;
+      img.loading = 'lazy';
+      picture.append(img);
+      card.append(picture);
     }
 
     // arrow indicator (top-right)
