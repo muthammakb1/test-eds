@@ -26,9 +26,17 @@
   margin: 0;
   font-weight: 400;
   font-size: clamp(30px, 8vw, 40px);
-  line-height: 1.1;
+  line-height: 1.2;
   letter-spacing: 0;
   color: var(--sm-text);
+
+  /* Force the two-line look from the Figma: constrain the width so the
+     heading wraps after "Corner", and use a hanging indent so the second
+     line ("A Little Character") is pushed in. Width is tuned per breakpoint
+     (see the desktop override) to keep "Give Every Corner" on line 1 and
+     wrap "A Little Character" onto the second line. Width sits between the
+     width of "Give Every Corner" and "Give Every Corner A". */
+  max-width: 8.4em;
 }
 
 .service-matrix .service-matrix-intro {
@@ -148,6 +156,16 @@
   .service-matrix .service-matrix-heading h2,
   .service-matrix .service-matrix-heading p {
     font-size: 64px;
+  }
+
+  /* Fix the heading width (as a flex item its content-based sizing ignores
+     max-width, so an explicit width is needed to force the wrap after
+     "Corner"). 8.4em sits between "Give Every Corner" and "...Corner A". */
+  .service-matrix .service-matrix-heading {
+    flex: 0 0 auto;
+    width: 8.4em;
+    min-width: 0; /* allow the fixed width to win over flex min-content */
+    max-width: none;
   }
 
   .service-matrix .service-matrix-intro {
