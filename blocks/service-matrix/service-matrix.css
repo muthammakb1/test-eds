@@ -70,9 +70,11 @@
   isolation: isolate;
 }
 
-/* stagger the two mobile columns so the second column drops down a little */
+/* Stagger the two mobile columns so the second column sits a little lower.
+   Use transform (not margin) so the offset doesn't inflate the grid row
+   height and open up large vertical gaps between rows. */
 .service-matrix .service-matrix-card:nth-child(even) {
-  margin-top: 40px;
+  transform: translateY(40px);
 }
 
 .service-matrix .service-matrix-card-bg {
@@ -171,7 +173,7 @@
 
   /* even columns are not staggered on desktop */
   .service-matrix .service-matrix-card:nth-child(even) {
-    margin-top: 0;
+    transform: none;
   }
 
   .service-matrix .service-matrix-card-title {
