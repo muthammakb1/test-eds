@@ -87,21 +87,6 @@
   object-fit: cover;
 }
 
-/* dark gradient so the text stays legible over any image */
-.service-matrix .service-matrix-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(
-    180deg,
-    rgb(0 0 0 / 45%) 0%,
-    rgb(0 0 0 / 10%) 35%,
-    rgb(0 0 0 / 15%) 60%,
-    rgb(0 0 0 / 70%) 100%
-  );
-}
-
 .service-matrix .service-matrix-card-title {
   margin: 0;
   padding: 16px 16px 0;
@@ -129,14 +114,6 @@
   height: 30px;
   border-radius: 50%;
   background: rgb(255 255 255 / 90%);
-}
-
-.service-matrix .service-matrix-card-arrow::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--sm-text);
-  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10" fill="none" stroke="black" stroke-width="2"/></svg>') no-repeat center / 16px 16px;
 }
 
 /* =============================================
