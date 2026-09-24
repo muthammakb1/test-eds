@@ -107,23 +107,21 @@
   line-height: 1.4;
 }
 
-/* arrow indicator top-right */
+/* arrow indicator top-right — mobile: a plain white arrow with no circle */
 .service-matrix .service-matrix-card-arrow {
   position: absolute;
   top: 12px;
   right: 12px;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background: rgb(255 255 255 / 90%);
+  width: 24px;
+  height: 24px;
 }
 
 .service-matrix .service-matrix-card-arrow::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--sm-text);
-  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10" fill="none" stroke="black" stroke-width="2"/></svg>') no-repeat center / 18px 18px;
+  background: #fff;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10" fill="none" stroke="black" stroke-width="2"/></svg>') no-repeat center / contain;
 }
 
 /* =============================================
@@ -184,5 +182,18 @@
   .service-matrix .service-matrix-card-desc {
     inset: auto 20px 20px;
     font-size: 13px;
+  }
+
+  /* desktop: the arrow sits inside a 45x45 white circle with a dark glyph */
+  .service-matrix .service-matrix-card-arrow {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 90%);
+  }
+
+  .service-matrix .service-matrix-card-arrow::after {
+    background: var(--sm-text);
+    mask-size: 18px 18px;
   }
 }
