@@ -7,8 +7,3 @@ export function trackEvent(eventName, params = {}) {
 export function triggerCTAClickWithLinkAndTitle(link, title, parentTitle) {
   // CTA click tracking stub
 }
-
-// eslint-disable-next-line no-unused-vars
-export function pushAdobeCtaClickEvent(data = {}) {
-  // Adobe CTA click tracking stub
-}
