@@ -8,10 +8,25 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
  *
  * Authoring model (all content lives in DA):
  *   Row 1  : heading | description
- *   Row 2+ : image | title | description | link (optional)
+ *   Row 2+ : desktop image | mobile image | title | description | link (optional)
+ *            (a card with only one image uses it for both viewports)
  *
  * @param {Element} block The block element
  */
+
+// Builds an optimized <picture> that serves the mobile image by default and
+// switches to the desktop image from 900px up.
+function buildResponsivePicture(desktopImg, mobileImg, alt) {
+  const picture = createOptimizedPicture(mobileImg.src, alt, false, [{ width: '750' }]);
+  const desktopPicture = createOptimizedPicture(desktopImg.src, alt, false, [
+    { media: '(min-width: 900px)', width: '750' },
+    { width: '750' },
+  ]);
+  // the desktop <source>s carry the media query; put them first so they win on desktop
+  const desktopSources = [...desktopPicture.querySelectorAll('source[media]')];
+  picture.prepend(...desktopSources);
+  return picture;
+}
 export default function decorate(block) {
   const rows = [...block.children];
   if (!rows.length) return;
@@ -40,7 +55,7 @@ export default function decorate(block) {
   list.className = 'category-showcase-cards';
 
   cardRows.forEach((row) => {
-    const img = row.querySelector('img');
+    const [desktopImg, mobileImg = desktopImg] = row.querySelectorAll('img');
     const textCells = [...row.children].filter((c) => !c.querySelector('picture, img'));
     const link = row.querySelector('a');
     const title = textCells[0]?.textContent.trim() || '';
@@ -59,8 +74,9 @@ export default function decorate(block) {
       item.append(inner);
     }
 
-    if (img) {
-      const picture = createOptimizedPicture(img.src, img.alt || title, false, [{ width: '750' }]);
+    if (desktopImg) {
+      const alt = mobileImg.alt || desktopImg.alt || title;
+      const picture = buildResponsivePicture(desktopImg, mobileImg, alt);
       picture.classList.add('category-showcase-image');
       inner.append(picture);
     }
