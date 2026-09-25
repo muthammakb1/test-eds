@@ -1,4 +1,31 @@
 /**
+ * Splits the heading into two lines so the second can be indented. Uses the
+ * authored line break when present, otherwise breaks at the word boundary
+ * that best balances the two lines.
+ * @param {string} html The heading's inner HTML
+ * @returns {string[]} the heading lines (HTML)
+ */
+function splitHeadingLines(html) {
+  const byBreak = html.split(/<br\s*\/?>/i).map((l) => l.trim()).filter(Boolean);
+  if (byBreak.length > 1) return byBreak;
+
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  const words = tmp.textContent.trim().split(/\s+/);
+  if (words.length < 2) return [html];
+  let best = 1;
+  let bestDiff = Infinity;
+  for (let i = 1; i < words.length; i += 1) {
+    const diff = Math.abs(words.slice(0, i).join(' ').length - words.slice(i).join(' ').length);
+    if (diff < bestDiff) {
+      best = i;
+      bestDiff = diff;
+    }
+  }
+  return [words.slice(0, best).join(' '), words.slice(best).join(' ')];
+}
+
+/**
  * Service Matrix
  * A heading/description header followed by a grid of image cards. Each card
  * shows a title and short description over a background image, with an arrow
@@ -24,7 +51,15 @@ export default function decorate(block) {
     const cells = [...headerRow.children];
     const heading = document.createElement('div');
     heading.className = 'service-matrix-heading';
-    heading.innerHTML = (cells[0]?.querySelector('h1, h2, h3, p') || cells[0])?.innerHTML || '';
+    const headingHtml = (cells[0]?.querySelector('h1, h2, h3, p') || cells[0])?.innerHTML || '';
+    splitHeadingLines(headingHtml).forEach((line, i) => {
+      // keep a real space between lines so they flow as one sentence on mobile
+      if (i) heading.append(' ');
+      const span = document.createElement('span');
+      span.className = 'service-matrix-heading-line';
+      span.innerHTML = line;
+      heading.append(span);
+    });
     header.append(heading);
     if (cells[1] && cells[1].textContent.trim()) {
       const desc = document.createElement('div');
