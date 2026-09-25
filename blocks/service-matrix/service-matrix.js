@@ -33,7 +33,8 @@ function splitHeadingLines(html) {
  *
  * Authoring model (all content lives in DA):
  *   Row 1  : heading (rich text) | description (plain text)
- *   Row 2+ : image | title | description | link (url)
+ *   Row 2  : "Open in new tab" | true / false (defaults to false)
+ *   Row 3+ : desktop image | mobile image | title | description | link (url)
  *
  * @param {Element} block The block element
  */
@@ -41,8 +42,14 @@ export default function decorate(block) {
   const rows = [...block.children];
   if (!rows.length) return;
 
-  // --- header: first row without an image is heading | description ------
-  const headerRow = rows.find((row) => !row.querySelector('img, picture'));
+  // --- config: "Open in new tab | true" makes card links open in a new tab ---
+  const isConfigRow = (row) => !row.querySelector('img, picture')
+    && /^open\s+in\s+new\s+tab$/i.test(row.children[0]?.textContent.trim() || '');
+  const configRow = rows.find(isConfigRow);
+  const openInNewTab = configRow?.children[1]?.textContent.trim().toLowerCase() === 'true';
+
+  // --- header: first non-config row without an image is heading | description
+  const headerRow = rows.find((row) => !row.querySelector('img, picture') && !isConfigRow(row));
   const cardRows = rows.filter((row) => row.querySelector('img, picture'));
 
   const header = document.createElement('div');
@@ -96,6 +103,10 @@ export default function decorate(block) {
     if (href) {
       card.href = href;
       card.setAttribute('aria-label', title);
+      if (openInNewTab) {
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+      }
     }
 
     // background image: a <picture> that serves the mobile image by default
