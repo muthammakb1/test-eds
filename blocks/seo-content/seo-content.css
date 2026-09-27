@@ -1,0 +1,66 @@
+/* =============================================
+   SEO CONTENT
+   Titled text sections. Mobile: one column; desktop: two columns that
+   fill top-to-bottom, in authored order.
+   ============================================= */
+
+.seo-content {
+  --seo-title: #23242b;
+  --seo-text: #3b3d40;
+}
+
+.seo-content .seo-content-item {
+  margin-bottom: 20px;
+  break-inside: avoid;
+}
+
+.seo-content .seo-content-title {
+  margin: 0 0 8px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--seo-title);
+}
+
+.seo-content .seo-content-desc,
+.seo-content .seo-content-desc p {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--seo-text);
+}
+
+.seo-content .seo-content-desc p + p {
+  margin-top: 8px;
+}
+
+.seo-content .seo-content-desc a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* =============================================
+   DESKTOP
+   ============================================= */
+@media (width >= 900px) {
+  .seo-content .seo-content-list {
+    column-count: 2;
+    column-gap: 32px;
+  }
+
+  .seo-content .seo-content-item {
+    margin-bottom: 24px;
+  }
+
+  .seo-content .seo-content-title {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .seo-content .seo-content-desc,
+  .seo-content .seo-content-desc p {
+    font-size: 18px;
+    line-height: 28px;
+  }
+}
