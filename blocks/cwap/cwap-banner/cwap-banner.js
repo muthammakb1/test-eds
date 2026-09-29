@@ -10,14 +10,17 @@ import { createOptimizedPicture } from '../../../scripts/aem.js';
  *   Title         | one line per paragraph (each line gets the gradient)
  *   Caption       | Visualize your dream home
  *   Download text | Download our visualizer app now (desktop only)
+ *   Play store    | store badge image | store link | QR code image (optional)
  *   App store     | store badge image | store link | QR code image (optional)
- *                   (repeat the App store row for each store)
+ *                   (store rows render in authored order)
  *   Video         | link to the video file
  *
  * @param {Element} block The block element
  */
 
 const DEFAULT_VIDEO_LABEL = 'Phone screen showing the launch of Colour with Asian Paints Visualizer';
+
+const STORE_LABELS = ['play store', 'app store'];
 
 const rowLabel = (row) => row.children[0]?.textContent.trim().toLowerCase().replace(/\s+/g, ' ') || '';
 
@@ -167,7 +170,7 @@ export default function decorate(block) {
   }
 
   const stores = rows
-    .filter((row) => rowLabel(row) === 'app store')
+    .filter((row) => STORE_LABELS.includes(rowLabel(row)))
     .map((row) => buildStore([...row.children]))
     .filter(Boolean);
   if (stores.length) {
