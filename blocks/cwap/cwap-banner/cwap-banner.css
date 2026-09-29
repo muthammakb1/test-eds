@@ -1,0 +1,264 @@
+/* =============================================
+   CWAP BANNER
+   Full-width app banner. Mobile: stacked and centred over the mobile
+   background; desktop: text left, phone-framed video right.
+   ============================================= */
+
+.cwap-banner-container .cwap-banner-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.cwap-banner {
+  --cwap-text: #222;
+  --cwap-fade: #fff5eb;
+  --cwap-gradient: linear-gradient(91deg, #431a80 1.46%, #ee4137 51.38%, #feb940);
+
+  position: relative;
+  overflow: hidden;
+  padding-top: 27px;
+  color: var(--cwap-text);
+}
+
+/* background image with a fade to cream on mobile */
+.cwap-banner .cwap-banner-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.cwap-banner .cwap-banner-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, var(--cwap-fade) 85%);
+}
+
+.cwap-banner .cwap-banner-bg picture,
+.cwap-banner .cwap-banner-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cwap-banner .cwap-banner-bg img {
+  object-fit: contain;
+  object-position: 0 0;
+}
+
+.cwap-banner .cwap-banner-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cwap-banner .cwap-banner-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+/* title: every line carries its own gradient */
+.cwap-banner .cwap-banner-title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 35.2px;
+}
+
+.cwap-banner .cwap-banner-title span {
+  display: block;
+  width: fit-content;
+  margin-inline: auto;
+  background: var(--cwap-gradient);
+  background-clip: text;
+  color: transparent;
+}
+
+.cwap-banner .cwap-banner-caption {
+  margin: 0 0 7px;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 35.2px;
+  color: var(--cwap-text);
+}
+
+.cwap-banner .cwap-banner-download {
+  display: none;
+}
+
+/* store buttons */
+.cwap-banner .cwap-banner-stores {
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cwap-banner .cwap-banner-qr {
+  display: none;
+}
+
+.cwap-banner .cwap-banner-store-link {
+  display: block;
+  line-height: 0;
+}
+
+.cwap-banner .cwap-banner-store-link img {
+  width: 102px;
+  height: 30px;
+}
+
+.cwap-banner .cwap-banner-store-link:focus-visible {
+  outline: 1px solid #000;
+  outline-offset: 2px;
+}
+
+/* phone-framed video */
+.cwap-banner .cwap-banner-media {
+  position: relative;
+  width: 177px;
+  height: 354px;
+  margin-top: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: url('./mobile-frame-mob.webp') 50% / contain no-repeat;
+}
+
+.cwap-banner .cwap-banner-video {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  width: 158px;
+  height: 338px;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.cwap-banner .cwap-banner-video:focus-visible {
+  outline: 1px solid #000;
+}
+
+@media (width >= 600px) {
+  .cwap-banner .cwap-banner-bg img {
+    object-fit: cover;
+  }
+}
+
+/* =============================================
+   DESKTOP
+   ============================================= */
+@media (width >= 900px) {
+  .cwap-banner {
+    box-sizing: border-box;
+    height: 640px;
+    padding: 42px 0 24px;
+  }
+
+  .cwap-banner .cwap-banner-bg::after {
+    content: none;
+  }
+
+  .cwap-banner .cwap-banner-bg img {
+    object-position: 50%;
+  }
+
+  .cwap-banner .cwap-banner-inner {
+    flex-direction: row;
+    justify-content: center;
+    gap: 8%;
+    height: 100%;
+  }
+
+  .cwap-banner .cwap-banner-content {
+    align-items: flex-start;
+    width: auto;
+    text-align: left;
+  }
+
+  .cwap-banner .cwap-banner-title {
+    max-width: 500px;
+    font-size: 80px;
+    line-height: 85px;
+    letter-spacing: -3px;
+  }
+
+  .cwap-banner .cwap-banner-title span {
+    margin-inline: 0;
+  }
+
+  .cwap-banner .cwap-banner-caption {
+    margin: 15px 0 67px;
+    font-size: 32px;
+  }
+
+  .cwap-banner .cwap-banner-download {
+    display: block;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 21.86px;
+  }
+
+  .cwap-banner .cwap-banner-stores {
+    align-items: flex-end;
+    justify-content: flex-start;
+    column-gap: 24px;
+    margin-top: 15px;
+  }
+
+  .cwap-banner .cwap-banner-store {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+  }
+
+  .cwap-banner .cwap-banner-qr {
+    display: block;
+    box-sizing: border-box;
+    width: 124px;
+    height: 124px;
+    padding: 8px;
+    border: 1px solid var(--cwap-text);
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .cwap-banner .cwap-banner-qr img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cwap-banner .cwap-banner-store-link img {
+    width: 180px;
+    height: 53px;
+  }
+
+  .cwap-banner .cwap-banner-media {
+    flex-shrink: 0;
+    width: 287px;
+    height: 575px;
+    margin-top: 0;
+    background-image: url('./mobile-frame-desk.webp');
+  }
+
+  .cwap-banner .cwap-banner-video {
+    top: 12px;
+    left: 16px;
+    width: 256.37px;
+    height: 550.3px;
+    border-radius: 33px;
+  }
+}
+
+@media (width >= 1200px) {
+  .cwap-banner .cwap-banner-inner {
+    gap: 15%;
+  }
+}

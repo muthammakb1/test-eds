@@ -114,6 +114,26 @@ function decorateButtons(main) {
 }
 
 /**
+ * Block groups: blocks named "{group}-{name}" live in blocks/{group}/{group}-{name}/
+ * and are loaded through the group's entry module (blocks/{group}/{group}.js).
+ */
+const BLOCK_GROUPS = ['cwap'];
+
+/**
+ * Routes grouped blocks to their group's entry module.
+ * @param {Element} main The main element
+ */
+function decorateBlockGroups(main) {
+  main.querySelectorAll('[data-block-name]').forEach((block) => {
+    const { blockName } = block.dataset;
+    const group = BLOCK_GROUPS.find((g) => blockName.startsWith(`${g}-`));
+    if (!group) return;
+    block.dataset.groupBlockName = blockName;
+    block.dataset.blockName = group;
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -123,6 +143,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  decorateBlockGroups(main);
   decorateButtons(main);
 }
 

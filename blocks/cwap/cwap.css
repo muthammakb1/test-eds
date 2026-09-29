@@ -1,0 +1,4 @@
+/* CWAP block group: styles live with each block in blocks/cwap/cwap-{name}/ */
+.cwap {
+  display: block;
+}
